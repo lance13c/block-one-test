@@ -9,7 +9,7 @@ class BlockList extends Component {
     super(props);
 
     // Eos Setup
-
+    //this.eos = this.setupEos();
   }
 
   render() {
@@ -24,10 +24,28 @@ class BlockList extends Component {
     );
   }
 
+  fetchConfigs() {
+
+  }
+
   setupEos() {
-    return Eos({
-      
-    });
+    let eos = undefined;
+
+    try {
+      eos = Eos({
+        //chainId: "aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906", // 32 byte (64 char) hex string
+        //keyProvider: ['PrivateKeys...'], // WIF string or array of keys..
+        httpEndpoint: 'localhost:3000',
+        //expireInSeconds: 60,
+        //broadcast: true,
+        //verbose: false, // API activity
+        //sign: false
+      });
+    } catch (e) {
+      throw new Error(`${e}`);
+    }
+
+    return eos;
   }
 
   getRecentBlocks() {
