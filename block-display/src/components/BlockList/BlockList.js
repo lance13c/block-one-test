@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './BlockList.css';
-import Button from '../Button/Button';
 import Block from '../Block/Block';
 import Eos from 'eosjs';
 import eosConfig from '../../eos.config';
