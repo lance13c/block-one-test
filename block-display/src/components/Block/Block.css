@@ -6,9 +6,6 @@
     font-size: .7rem;
     text-align: left;
     margin-bottom: 10px;
-}
-
-.block {
     cursor: pointer;
 }
 
@@ -17,22 +14,13 @@
 }
 
 .block .details {
-    max-height: 0px;
-    transition-property: all;
-    transition-duration: 0.5s;
-    opacity: 0;
+    transition: max-height 0.5s;
+    overflow: hidden;
+    max-height: 0;
 }
 
-.block:active .details {
-    max-height: 300px;
-    opacity: 1;
+.block.active .details {
+    transition: max-height 0.5s;
+    max-height: 20em;
 }
 
-.block:active .details .details-data {
-    display: block;
-}
-
-.block .details .details-data {
-    display: none;
-    max-height: 100%;
-}

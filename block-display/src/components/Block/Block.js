@@ -4,10 +4,10 @@ import './Block.css';
 class Block extends Component {
   render() {
     return (
-      <li className="block">
+      <li className="block"  onClick={(e) => {console.log('dfd'); this.clicked(e)}}>
         <div className="display-data"><strong>ID: </strong> {this.props.id}</div>
         <div className="display-data"><strong>Timestamp: </strong>{this.props.timestamp}</div>
-        <div className="details" onClick={(e) => {this.clicked(e)}}>
+        <div className="details">
           <div className="details-data">action_mroot: {this.props.action_mroot}</div>
           <div className="details-data">block_extensions: {this.props.block_extensions}</div>
           <div className="details-data">block_num: {this.props.block_num}</div>
@@ -27,13 +27,8 @@ class Block extends Component {
   }
 
   clicked(e) {
-    let block = e.target;
-    
-    if (block.classList.contains('active') === true) {
-      block.classList.remove('active');
-    } else {
-      block.classList.add('active');
-    }
+    let block = e.currentTarget;
+    block.classList.toggle('active');
   }
 }
 
