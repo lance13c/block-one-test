@@ -29,20 +29,7 @@ class BlockList extends Component {
         <button className="load-button" onClick={this.updateBlocks.bind(this)}>LOAD</button>
         <ul className="block-list">
           { this.state.recentBlocks.map((block, i) =>
-            <Block key={i} id={block.id} timestamp={block.timestamp}
-            action_mroot={block.action_mroot}
-            block_extensions={block.block_extensions}
-            block_num={block.block_num}
-            confirmed={block.confirmed}
-            header_extensions={block.header_extensions}
-            new_producers={block.new_producers}
-            previous={block.previous}
-            producer={block.producer}
-            producer_signature={block.producer_signature}
-            ref_block_prefix={block.ref_block_prefix}
-            schedule_version={block.schedule_version}
-            transation_mroot={block.transation_mroot}
-            transations={block.transations} />
+            <Block key={i} block={block} />
           )}
         </ul>
       </div>

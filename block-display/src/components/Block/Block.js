@@ -6,29 +6,23 @@ class Block extends Component {
     return (
       <li className="block"  onClick={(e) => {console.log('dfd'); this.clicked(e)}}>
         <div className="display">
-          <div className="display-data"><strong>ID: </strong> {this.props.id}</div>
-          <div className="display-data"><strong>Timestamp: </strong>{this.props.timestamp}</div>
+          <div className="display-data"><strong>ID: </strong> {this.props.block.id}</div>
+          <div className="display-data"><strong>Timestamp: </strong>{this.props.block.timestamp}</div>
         </div>
         <div className="details">
           <h3>Details</h3>
-          <div className="details-data">action_mroot: {this.props.action_mroot}</div>
-          <div className="details-data">block_extensions: {this.props.block_extensions}</div>
-          <div className="details-data">block_num: {this.props.block_num}</div>
-          <div className="details-data">confirmed: {this.props.confirmed}</div>
-          <div className="details-data">header_extensions: {this.props.header_extensions}</div>
-          <div className="details-data">new_producers: {this.props.new_producers}</div>
-          <div className="details-data">previous: {this.props.previous}</div>
-          <div className="details-data">producer: {this.props.producer}</div>
-          <div className="details-data">producer_signature: {this.props.producer_signature}</div>
-          <div className="details-data">ref_block_prefix: {this.props.ref_block_prefix}</div>
-          <div className="details-data">schedule_version: {this.props.schedule_version}</div>
-          <div className="details-data">transaction_mroot: {this.props.transaction_mroot}</div>
-          <div className="details-data">transactions: {this.props.transactions}</div>
-        </div>
+          {Object.keys(this.props.block).map((key, i) => {
+            return <div key={i} className="details-data">{key}: {this.props.block[key]}</div>
+          })}
+         </div>
       </li>
     );
   }
 
+  /**
+   * Adds and removes a class from an element to indicate if it is active or not active. 
+   * @param {Event} e - The event emitted from an onClick listener 
+   */
   clicked(e) {
     let block = e.currentTarget;
     block.classList.toggle('active');
