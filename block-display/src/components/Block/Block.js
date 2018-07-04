@@ -5,9 +5,12 @@ class Block extends Component {
   render() {
     return (
       <li className="block"  onClick={(e) => {console.log('dfd'); this.clicked(e)}}>
-        <div className="display-data"><strong>ID: </strong> {this.props.id}</div>
-        <div className="display-data"><strong>Timestamp: </strong>{this.props.timestamp}</div>
+        <div className="display">
+          <div className="display-data"><strong>ID: </strong> {this.props.id}</div>
+          <div className="display-data"><strong>Timestamp: </strong>{this.props.timestamp}</div>
+        </div>
         <div className="details">
+          <h3>Details</h3>
           <div className="details-data">action_mroot: {this.props.action_mroot}</div>
           <div className="details-data">block_extensions: {this.props.block_extensions}</div>
           <div className="details-data">block_num: {this.props.block_num}</div>
