@@ -19,14 +19,20 @@ class BlockList extends Component {
     // Eos Setup
     this.eos = this.setupEos();
     this.updateBlocks();
-
-    //this.state.updateBlocks = this.updateBlocks.bind(this);
   }
 
   render() {
     return (
       <div className="block-list-wrapper">
         <button className="load-button" onClick={this.updateBlocks.bind(this)}>LOAD</button>
+        <span className="loading">
+          <span>Loading Blocks</span>
+          <div className="spinner">
+            <div className="bounce1"></div>
+            <div className="bounce2"></div>
+            <div className="bounce3"></div>
+          </div>
+        </span>
         <ul className="block-list">
           { this.state.recentBlocks.map((block, i) =>
             <Block key={i} block={block} />
@@ -34,9 +40,6 @@ class BlockList extends Component {
         </ul>
       </div>
     );
-  }
-
-  componentDidMount() {
   }
 
   /**
@@ -56,13 +59,13 @@ class BlockList extends Component {
       let headBlockNum = info.head_block_num;
 
       // Calculate how many number
-      if (previousBlockNumber !== undefined) {
-        if (previousBlockNumber > headBlockNum) {
-          throw new Error('Head block number is less than a previous block');
-        }
-        amount = headBlockNum - previousBlockNumber;
-        amount = (amount > MAX_AMOUNT) ? MAX_AMOUNT: amount;
-      }
+      // if (previousBlockNumber !== undefined) {
+      //   if (previousBlockNumber > headBlockNum) {
+      //     throw new Error('Head block number is less than a previous block');
+      //   }
+      //   amount = headBlockNum - previousBlockNumber;
+      //   amount = (amount > MAX_AMOUNT) ? MAX_AMOUNT: amount;
+      // }
   
       for (let i = 0; i < amount; i++) {
         // Preformed syncronously to keep them in order. TODO: Call in parellel 
@@ -80,24 +83,28 @@ class BlockList extends Component {
   }
 
   updateBlocks() {
+    let loadingEl = document.querySelector('.loading');
+    if (loadingEl !== null) {
+      loadingEl.classList.toggle('active');
+    }
+
     this.fetchRecentBlocks(this.REQUEST_AMOUNT, this.previousBlockNumber).then((response) => {
-
-      let blockEls = document.querySelectorAll('.block');
-      blockEls = [...blockEls];
-      blockEls.slice(response.length);
-
-      blockEls.forEach((blockEl) => {
-        response.push(this.state.recentBlocks.shift());
-        blockEl.classList.add('drop');
-      });
-      
-
       this.setState((prevState, props) => {
+
+        // let blockEls = document.querySelectorAll('.block');
+        // blockEls= [...blockEls];
+        // blockEls.slice(response.length);
+
+        // blockEls.forEach(() => {
+        //   response.push(this.state.recentBlocks.shift());;
+        // });
+        
+        if (loadingEl !== null) {
+          loadingEl.classList.toggle('active');
+        }
          return {recentBlocks: prevState.recentBlocks = response};
       });
     });
-
-    //console.log(this.eos.getBlock());
   }
 
   // Instantiates eosjs

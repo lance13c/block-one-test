@@ -4,7 +4,7 @@ import './Block.css';
 class Block extends Component {
   render() {
     return (
-      <li className="block"  onClick={(e) => {console.log('dfd'); this.clicked(e)}}>
+      <li className="block"  onClick={(e) => {this.clicked(e)}}>
         <div className="display">
           <div className="display-data"><strong>ID: </strong> {this.props.block.id}</div>
           <div className="display-data"><strong>Timestamp: </strong>{this.props.block.timestamp}</div>
