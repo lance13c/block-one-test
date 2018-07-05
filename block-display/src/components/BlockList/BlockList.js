@@ -11,7 +11,7 @@ class BlockList extends Component {
 
     this.REQUEST_AMOUNT = 10;
 
-    this.mostRecentBlockId = 0;
+    this.previousBlockNumber = undefined;
     this.state = {
       recentBlocks: []
     }
@@ -37,45 +37,62 @@ class BlockList extends Component {
   }
 
   componentDidMount() {
-
-    //let loadButton = document.querySelector(".load-button");
-    //let blockListEl = document.querySelector('.block-list__list');
-
-    // loadButton.addEventListener("touchstart click", (e) => {
-    //   // Update Blocks
-    // });
   }
 
   /**
    * Fetches the most recent blocks from the prespecified block chain.
-   * @param {Number} amount - The quantity of most recent blocks to get
-   * @return {Array} - An array of block objects. 
+   * @param {Number} amount - The quantity of most recent blocks to get if previousBlockNumber is undefined
+   * @param {Number} previousBlockNumber - The number of a previous block recieved from the blockchain. This is used
+   * to evaluate how many new blocks to fetch
+   * @return {Array} - An array of block objects.
    */
-  async fetchRecentBlocks(amount) {
+  async fetchRecentBlocks(amount, previousBlockNumber) {
     let recentBlocks = [];
+
+    const MAX_AMOUNT = amount;
 
     try {
       let info = await this.eos.getInfo({});
       let headBlockNum = info.head_block_num;
 
-      // Check if amount is greater than head block
-      //if (headBlockNum > amount) 
+      // Calculate how many number
+      if (previousBlockNumber !== undefined) {
+        if (previousBlockNumber > headBlockNum) {
+          throw new Error('Head block number is less than a previous block');
+        }
+        amount = headBlockNum - previousBlockNumber;
+        amount = (amount > MAX_AMOUNT) ? MAX_AMOUNT: amount;
+      }
   
       for (let i = 0; i < amount; i++) {
+        // Preformed syncronously to keep them in order. TODO: Call in parellel 
+        // then sort if this function ever needs to fetch more than 10 blocks.
         let block = await this.eos.getBlock(headBlockNum - i);
         recentBlocks.push(block);
       }
+
+      this.previousBlockNumber = recentBlocks[0].block_num;
+
     } catch (e) {
       throw new Error(e);
     }
-
     return recentBlocks;
   }
 
   updateBlocks() {
-    this.fetchRecentBlocks(this.REQUEST_AMOUNT).then((response) => {
+    this.fetchRecentBlocks(this.REQUEST_AMOUNT, this.previousBlockNumber).then((response) => {
+
+      let blockEls = document.querySelectorAll('.block');
+      blockEls = [...blockEls];
+      blockEls.slice(response.length);
+
+      blockEls.forEach((blockEl) => {
+        response.push(this.state.recentBlocks.shift());
+        blockEl.classList.add('drop');
+      });
+      
+
       this.setState((prevState, props) => {
-         console.log(response[0]);
          return {recentBlocks: prevState.recentBlocks = response};
       });
     });

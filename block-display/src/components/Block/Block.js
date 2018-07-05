@@ -12,7 +12,7 @@ class Block extends Component {
         <div className="details">
           <h3>Details</h3>
           {Object.keys(this.props.block).map((key, i) => {
-            return <div key={i} className="details-data">{key}: {this.props.block[key]}</div>
+            return <div key={i} className="details-data">{key}: {String(this.props.block[key])}</div>
           })}
          </div>
       </li>

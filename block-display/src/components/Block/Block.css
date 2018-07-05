@@ -79,7 +79,7 @@
 
 .block.active .details {
     transition: max-height 0.5s;
-    max-height: 20em;
+    max-height: 30em;
 }
 
 .block .details h3 {

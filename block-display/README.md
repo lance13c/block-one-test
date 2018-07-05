@@ -1,3 +1,55 @@
+# Block Display
+
+# How to Run
+
+1) Download Node JS
+
+1) Git clone the repository
+
+1) Go to the directory **block-display**
+
+1) Run the task `npm install`
+
+1) Once that finishes run the task 'npm start'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
